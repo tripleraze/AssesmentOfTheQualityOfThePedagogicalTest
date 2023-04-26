@@ -1,0 +1,2 @@
+# AssesmentOfTheQualityOfThePedagogicalTest
+Something like a diploma
