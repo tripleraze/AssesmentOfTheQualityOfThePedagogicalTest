@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Assesment</title>
+</head>
+<body>
+<div>
+    <table border="1">
+        <tr>
+            <th>Общая статистика, полученная после анализа</th>
+        </tr>
+        <tr>
+            <th>Количество попыток выполнения теста: {{NumberOfAttempts}}</th>
+        </tr>
+        <tr>
+            <th>Количество вопросов в тесте: {{NumberOfQuestions}}</th>
+        </tr>
+        <tr>
+            <th>Средний результат прохождения теста: {{AverageResult}}</th>
+        </tr>
+    </table>
+</div>
+<div>
+<details>
+    <summary>
+        <b>Сколько раз встретился каждый вопрос в тесте</b>
+    </summary>
+        <table border="1">
+            <tr>
+                <th>Вопрос</th>
+                <th>Количество</th>
+            </tr>
+            {% for i in range(Count1) %}
+            <tr>
+                <th>{{CountOfQuestions.iloc[i]['Question']}}</th>
+                <th>{{CountOfQuestions.iloc[i]['Count']}}</th>
+            </tr>
+            {% endfor %}
+        </table>
+</details>
+</div>
+<div>
+<details>
+    <summary>
+        <b>Индекс сложности для каждого вопроса</b>
+    </summary>
+        <table border="1">
+            <tr>
+                <th>Номер вопроса</th>
+                <th>Вопрос</th>
+                <th>Количество попыток</th>
+                <th>Количество удачных попыток</th>
+                <th>Индекс сложности</th>
+            </tr>
+            {% for i in range(Count) %}
+            <tr>
+                <th>{{DifficultyIndexes.iloc[i]['NumberOfQuestion']}}</th>
+                <th>{{DifficultyIndexes.iloc[i]['Question']}}</th>
+                <th>{{DifficultyIndexes.iloc[i]['Count']}}</th>
+                <th>{{DifficultyIndexes.iloc[i]['CountSuccesfully']}}</th>
+                <th>{{DifficultyIndexes.iloc[i]['DifficultyIndex']}}</th>
+            </tr>
+            {% endfor %}
+        </table>
+</details>
+</div>
+<details>
+    <summary>
+        <b>Список наиболее сложных вопросов</b>
+    </summary>
+        <table border="1">
+            <tr>
+                <th>Вопрос</th>
+            </tr>
+            {% for i in range(Count2) %}
+            <tr>
+                <th>{{HardQuestions.iloc[i]['Question']}}</th>
+            </tr>
+            {% endfor %}
+        </table>
+</details>
+</div>
+<details>
+    <summary>
+        <b>Список наиболее лёгких вопросов</b>
+    </summary>
+        <table border="1">
+            <tr>
+                <th>Вопрос</th>
+            </tr>
+            {% for i in range(Count3) %}
+            <tr>
+                <th>{{EazyQuestions.iloc[i]['Question']}}</th>
+            </tr>
+            {% endfor %}
+        </table>
+</details>
+</div>
+</body>
+</html>

@@ -3,9 +3,6 @@ import pandas as pd
 import openpyxl
 
 
-TestResults = pd.read_csv('TestResults.csv')
-
-
 def NumberOfQuestionsCalculate(TestResults):
     NumberOfQuestions = 0
     for column in TestResults:
@@ -30,11 +27,14 @@ def CountOfQuestions(TestResults):
             else:
                 Count = Count._append(TestResults[column].value_counts())
                 i += 1
+    Count.to_excel('Questions.xlsx')
+    Count = pd.read_excel('Questions.xlsx')
+    Count.columns = ['Question', 'Count']
     return Count
 
 
 def DifficultyIndexOfQuestion(TestResults):
-    DifficultyIndexes = pd.DataFrame(columns=['NumberOfQuestion','Question','Count', 'DifficultyIndex'])
+    DifficultyIndexes = pd.DataFrame(columns=['NumberOfQuestion','Question','Count', 'CountSuccesfully', 'DifficultyIndex'])
     i = 1
     count = 0
     for column in TestResults:
@@ -50,7 +50,7 @@ def DifficultyIndexOfQuestion(TestResults):
                         count += 1
                     j += 1
                 DifficultyIndex = 100*(1-RightAnswers/count)
-                DifficultyIndexes.loc[len(DifficultyIndexes.index)] = [f'Вопрос {i}', q, count, DifficultyIndex]
+                DifficultyIndexes.loc[len(DifficultyIndexes.index)] = [f'Вопрос {i}', q, count, RightAnswers, DifficultyIndex]
                 RightAnswers -= RightAnswers
                 j -= j
                 count -= count
@@ -58,12 +58,35 @@ def DifficultyIndexOfQuestion(TestResults):
     return DifficultyIndexes
 
 
-print("Общее количество попыток выполнения теста: " + str(len(TestResults.index)))
-NumberOfQuestions = NumberOfQuestionsCalculate(TestResults)
-print ("Количество вопросов в тесте: " + str(NumberOfQuestions))
-print("Средний балл прохождения теста: " + str(AverageResult(TestResults)))
-print ("Количество раз, сколько встретился каждый вопрос в тесте: ")
-print(CountOfQuestions(TestResults))
-print("Индекс трудности для каждого из вопросов: " + str(DifficultyIndexOfQuestion(TestResults)))
+def FindHardQuestions(DifficultyIndexOfQuestion):
+    i = 0
+    HardQuestions = pd.DataFrame(columns=['Question'])
+    while i < len(DifficultyIndexOfQuestion.index):
+        if DifficultyIndexOfQuestion.iloc[i]['Count'] >= 5 and DifficultyIndexOfQuestion.iloc[i]['DifficultyIndex'] >= 80:
+            HardQuestions.loc[len(HardQuestions.index)] = [DifficultyIndexOfQuestion.iloc[i]['Question']]
+        i += 1
+    return HardQuestions
 
 
+def FindEazyQuestions(DifficultyIndexOfQuestion):
+    i = 0
+    EazyQuestions = pd.DataFrame(columns=['Question'])
+    while i < len(DifficultyIndexOfQuestion.index):
+        if DifficultyIndexOfQuestion.iloc[i]['Count'] >= 5 and DifficultyIndexOfQuestion.iloc[i]['DifficultyIndex'] <=10:
+            EazyQuestions.loc[len(EazyQuestions.index)] = [DifficultyIndexOfQuestion.iloc[i]['Question']]
+        i += 1
+    return EazyQuestions
+
+
+#print("Общее количество попыток выполнения теста: " + str(len(TestResults.index)))
+#NumberOfQuestions = NumberOfQuestionsCalculate(TestResults)
+#print ("Количество вопросов в тесте: " + str(NumberOfQuestions))
+#print("Средний балл прохождения теста: " + str(AverageResult(TestResults)))
+#print ("Количество раз, сколько встретился каждый вопрос в тесте: ")
+#print(CountOfQuestions(TestResults))
+#print("Индекс трудности для каждого из вопросов: ")
+#print(DifficultyIndexOfQuestion(TestResults))
+#print("Сложные вопросы: ")
+#print(FindHardQuestions(DifficultyIndexOfQuestion(TestResults)))
+#print("Лёгкие вопросы: ")
+#print(FindEazyQuestions(DifficultyIndexOfQuestion(TestResults)))
