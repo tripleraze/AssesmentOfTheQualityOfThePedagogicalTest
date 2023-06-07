@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Assesment</title>
+</head>
+<body>
+    <form action="{{url_for('upload')}}" method="POST", enctype="multipart/form-data">
+        <p><input type="file" name="file"></p>
+        <p><input type="submit" value="Загрузить"></p>
+    </form>
+</body>

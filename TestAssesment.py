@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 import openpyxl
+import matplotlib.pyplot as plt
+
+
+#TestResults = pd.read_csv('TestResults.csv')
 
 
 def NumberOfQuestionsCalculate(TestResults):
@@ -14,7 +18,7 @@ def NumberOfQuestionsCalculate(TestResults):
 def AverageResult(TestResults):
     TestResults['Оценка/100,0'] =[x.replace(',', '.') for x in TestResults['Оценка/100,0']]
     average = TestResults['Оценка/100,0'].astype(float).sum()/len(TestResults.index)
-    return average
+    return round(average, 2)
 
 
 def CountOfQuestions(TestResults):
@@ -49,7 +53,7 @@ def DifficultyIndexOfQuestion(TestResults):
                     if q == TestResults.iloc[j][f'Вопрос {i}']:
                         count += 1
                     j += 1
-                DifficultyIndex = 100*(1-RightAnswers/count)
+                DifficultyIndex = round(100*(1-RightAnswers/count), 2)
                 DifficultyIndexes.loc[len(DifficultyIndexes.index)] = [f'Вопрос {i}', q, count, RightAnswers, DifficultyIndex]
                 RightAnswers -= RightAnswers
                 j -= j
@@ -78,15 +82,62 @@ def FindEazyQuestions(DifficultyIndexOfQuestion):
     return EazyQuestions
 
 
+def AverageResultPerCategory(DifficultyIndexes, NumberOfAttempts):
+    AverageResultsPerCategory = []
+    buffer = 0
+    count = 0
+    j = 1
+    for i in range(NumberOfAttempts):
+        if DifficultyIndexes.iloc[i]['NumberOfQuestion'] == f"Вопрос {j}":
+            buffer += DifficultyIndexes.iloc[i]['DifficultyIndex']
+            count += 1
+        else:
+            AverageResultsPerCategory.append(round(buffer/count,2))
+            j += 1
+            count -= count
+            buffer -= buffer
+    AverageResultsPerCategory.append(round(buffer/count, 2))
+    return AverageResultsPerCategory
+
+def CreateDiagram(AverageResultsPerCategory, NumberOfQuestions):
+    i = 1
+    buffer = []
+    while i <= NumberOfQuestions:
+        buffer.append(f"Вопрос {i}")
+        i += 1
+    objects = tuple(buffer)
+    y_pos = np.arange(len(objects))
+    performance = AverageResultsPerCategory
+
+    plt.figure(figsize=(7, 8.5))
+    plt.bar(y_pos, performance, align='center', alpha=0.5)
+    plt.xticks(y_pos, objects, rotation=45)
+    plt.ylabel('Индекс трудности')
+    plt.xlabel('Категория вопроса')
+    plt.savefig('static/img/diagram.png')
+
+
+def ConvertToDataFrame(AVG):
+    DataFrame = pd.DataFrame(columns=['Category', 'AVG'])
+    for i in range(len(AVG)):
+        DataFrame.loc[len(DataFrame.index)] = [f'Вопрос {i+1}', AVG[i]]
+    return DataFrame
+
+
+
 #print("Общее количество попыток выполнения теста: " + str(len(TestResults.index)))
 #NumberOfQuestions = NumberOfQuestionsCalculate(TestResults)
 #print ("Количество вопросов в тесте: " + str(NumberOfQuestions))
 #print("Средний балл прохождения теста: " + str(AverageResult(TestResults)))
 #print ("Количество раз, сколько встретился каждый вопрос в тесте: ")
 #print(CountOfQuestions(TestResults))
-#print("Индекс трудности для каждого из вопросов: ")
 #print(DifficultyIndexOfQuestion(TestResults))
 #print("Сложные вопросы: ")
 #print(FindHardQuestions(DifficultyIndexOfQuestion(TestResults)))
 #print("Лёгкие вопросы: ")
 #print(FindEazyQuestions(DifficultyIndexOfQuestion(TestResults)))
+#AVG = AverageResultPerCategory(DifficultyIndexOfQuestion(TestResults), len(DifficultyIndexOfQuestion(TestResults).index))
+#print(AVG)
+#CreateDiagram(AVG, NumberOfQuestionsCalculate(TestResults))
+#df = ConvertToDataFrame(AVG)
+#print(df)

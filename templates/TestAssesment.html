@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Test Assesment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/styles.css') }}">
 </head>
 <body>
-<div>
-    <table border="1">
+<div class="content">
+    <table class="table">
+        <thead>
         <tr>
             <th>Общая статистика, полученная после анализа</th>
         </tr>
@@ -19,33 +21,34 @@
         <tr>
             <th>Средний результат прохождения теста: {{AverageResult}}</th>
         </tr>
+        </thead>
     </table>
-</div>
-<div>
+
+
 <details>
     <summary>
         <b>Сколько раз встретился каждый вопрос в тесте</b>
     </summary>
-        <table border="1">
+        <table class="table">
             <tr>
                 <th>Вопрос</th>
                 <th>Количество</th>
             </tr>
             {% for i in range(Count1) %}
             <tr>
-                <th>{{CountOfQuestions.iloc[i]['Question']}}</th>
-                <th>{{CountOfQuestions.iloc[i]['Count']}}</th>
+                <td>{{CountOfQuestions.iloc[i]['Question']}}</td>
+                <td>{{CountOfQuestions.iloc[i]['Count']}}</td>
             </tr>
             {% endfor %}
         </table>
 </details>
-</div>
-<div>
+
+
 <details>
     <summary>
         <b>Индекс сложности для каждого вопроса</b>
     </summary>
-        <table border="1">
+        <table class="table">
             <tr>
                 <th>Номер вопроса</th>
                 <th>Вопрос</th>
@@ -55,47 +58,71 @@
             </tr>
             {% for i in range(Count) %}
             <tr>
-                <th>{{DifficultyIndexes.iloc[i]['NumberOfQuestion']}}</th>
-                <th>{{DifficultyIndexes.iloc[i]['Question']}}</th>
-                <th>{{DifficultyIndexes.iloc[i]['Count']}}</th>
-                <th>{{DifficultyIndexes.iloc[i]['CountSuccesfully']}}</th>
-                <th>{{DifficultyIndexes.iloc[i]['DifficultyIndex']}}</th>
+                <td>{{DifficultyIndexes.iloc[i]['NumberOfQuestion']}}</td>
+                <td>{{DifficultyIndexes.iloc[i]['Question']}}</td>
+                <td>{{DifficultyIndexes.iloc[i]['Count']}}</td>
+                <td>{{DifficultyIndexes.iloc[i]['CountSuccesfully']}}</td>
+                <td>{{DifficultyIndexes.iloc[i]['DifficultyIndex']}}</td>
             </tr>
             {% endfor %}
         </table>
 </details>
-</div>
+
 <details>
     <summary>
         <b>Список наиболее сложных вопросов</b>
     </summary>
-        <table border="1">
+        <table class="table">
             <tr>
                 <th>Вопрос</th>
             </tr>
             {% for i in range(Count2) %}
             <tr>
-                <th>{{HardQuestions.iloc[i]['Question']}}</th>
+                <td>{{HardQuestions.iloc[i]['Question']}}</td>
             </tr>
             {% endfor %}
         </table>
 </details>
-</div>
+
 <details>
     <summary>
         <b>Список наиболее лёгких вопросов</b>
     </summary>
-        <table border="1">
+        <table class="table">
             <tr>
                 <th>Вопрос</th>
             </tr>
             {% for i in range(Count3) %}
             <tr>
-                <th>{{EazyQuestions.iloc[i]['Question']}}</th>
+                <td>{{EazyQuestions.iloc[i]['Question']}}</td>
             </tr>
             {% endfor %}
         </table>
 </details>
+<details>
+    <summary>
+        <b>Средний индекс сложности по категориям</b>
+    </summary>
+        <table class="table">
+            <tr>
+                <th>Категория</th>
+                <th>Индекс сложности</th>
+            </tr>
+            {% for i in range(Count4) %}
+            <tr>
+                <td>{{AVGDataFrame.iloc[i]['Category']}}</td>
+                <td>{{AVGDataFrame.iloc[i]['AVG']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+</details>
+<details>
+    <summary>
+        <b>График трудности вопросов по категориям</b>
+    </summary>
+    <img src="static/img/diagram.png" alt="График">
+</details>
+
 </div>
 </body>
 </html>
