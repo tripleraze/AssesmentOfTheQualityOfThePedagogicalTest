@@ -114,6 +114,7 @@ def CreateDiagram(AverageResultsPerCategory, NumberOfQuestions):
     plt.xticks(y_pos, objects, rotation=45)
     plt.ylabel('Индекс трудности')
     plt.xlabel('Категория вопроса')
+    plt.title('График трудности вопросов по категориям')
     plt.savefig('static/img/diagram.png')
 
 

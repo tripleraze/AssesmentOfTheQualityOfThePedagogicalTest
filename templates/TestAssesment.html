@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="content">
-    <table class="table">
+    <table class="table1">
         <thead>
         <tr>
             <th>Общая статистика, полученная после анализа</th>
@@ -21,11 +21,8 @@
         <tr>
             <th>Средний результат прохождения теста: {{AverageResult}}</th>
         </tr>
-        </thead>
-    </table>
-
-
-<details>
+        <tr>
+            <th><details class="details">
     <summary>
         <b>Сколько раз встретился каждый вопрос в тесте</b>
     </summary>
@@ -41,10 +38,11 @@
             </tr>
             {% endfor %}
         </table>
-</details>
-
-
-<details>
+</details></th>
+        </tr>
+        <tr>
+            <th>
+                <details class="details">
     <summary>
         <b>Индекс сложности для каждого вопроса</b>
     </summary>
@@ -67,8 +65,11 @@
             {% endfor %}
         </table>
 </details>
-
-<details>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <details class="details">
     <summary>
         <b>Список наиболее сложных вопросов</b>
     </summary>
@@ -83,8 +84,11 @@
             {% endfor %}
         </table>
 </details>
-
-<details>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <details class="details">
     <summary>
         <b>Список наиболее лёгких вопросов</b>
     </summary>
@@ -99,7 +103,11 @@
             {% endfor %}
         </table>
 </details>
-<details>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <details class="details">
     <summary>
         <b>Средний индекс сложности по категориям</b>
     </summary>
@@ -116,13 +124,13 @@
             {% endfor %}
         </table>
 </details>
-<details>
-    <summary>
-        <b>График трудности вопросов по категориям</b>
-    </summary>
-    <img src="static/img/diagram.png" alt="График">
-</details>
-
+            </th>
+        </tr>
+        </thead>
+    </table>
+    <div class="img">
+        <img src="static/img/diagram.png" alt="График">
+    </div>
 </div>
 </body>
 </html>

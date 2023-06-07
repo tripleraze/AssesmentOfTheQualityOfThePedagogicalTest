@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Test Assesment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/styles.css') }}">
 </head>
 <body>
-    <form action="{{url_for('upload')}}" method="POST", enctype="multipart/form-data">
-        <p><input type="file" name="file"></p>
-        <p><input type="submit" value="Загрузить"></p>
+<div class="content">
+    <form class="form" action="{{url_for('upload')}}" method="POST", enctype="multipart/form-data">
+        <p><h4><b>Загрузка результатов теста</b></h4></p>
+        <p><input class="file" type="file" name="file"></p>
+        <p><input class="submit" type="submit" value="Загрузить"></p>
     </form>
+</div>
 </body>

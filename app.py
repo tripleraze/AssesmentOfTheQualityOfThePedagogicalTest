@@ -5,7 +5,10 @@ import os
 
 #TestResults = TestAssesment.pd.read_csv('TestResults.csv')
 
+if os.path.exists('D:/AssesmentOfTheQualityOfThePedagogicalTest/TestResults.csv'):
+    os.remove('D:/AssesmentOfTheQualityOfThePedagogicalTest/TestResults.csv')
 
+    
 UPLOAD_FOLDER = 'D:/AssesmentOfTheQualityOfThePedagogicalTest'
 ALLOWED_EXTENSIONS = ['csv']
 
@@ -25,7 +28,7 @@ def upload():
         if file and AllowedFile(file.filename):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'TestResults.csv'))
             return redirect('TestAssesment')
-        else: return redirect('')
+        else: return redirect('/')
 
 @app.route('/', methods=['GET', 'POST'])
 def MainPage():
@@ -34,24 +37,25 @@ def MainPage():
 
 @app.route('/TestAssesment', methods=['GET'])
 def TestAssesmentPage():
-    TestResults = TestAssesment.pd.read_csv('TestResults.csv')
-    NumberOfQuestions = TestAssesment.NumberOfQuestionsCalculate(TestResults)
-    NumberOfAttempts = len(TestResults.index)
-    DifficultyIndexes = TestAssesment.DifficultyIndexOfQuestion(TestResults)
-    Count = len(DifficultyIndexes.index)
-    AverageResult = TestAssesment.AverageResult(TestResults)
-    CountOfQuestions = TestAssesment.CountOfQuestions(TestResults)
-    Count1 = len(CountOfQuestions.index)
-    HardQuestions = TestAssesment.FindHardQuestions(DifficultyIndexes)
-    Count2 = len(HardQuestions.index)
-    EazyQuestions = TestAssesment.FindEazyQuestions(DifficultyIndexes)
-    Count3 = len(EazyQuestions.index)
-    AVG = TestAssesment.AverageResultPerCategory(TestAssesment.DifficultyIndexOfQuestion(TestResults),
+    if os.path.exists('D:/AssesmentOfTheQualityOfThePedagogicalTest/TestResults.csv'):
+        TestResults = TestAssesment.pd.read_csv('TestResults.csv')
+        NumberOfQuestions = TestAssesment.NumberOfQuestionsCalculate(TestResults)
+        NumberOfAttempts = len(TestResults.index)
+        DifficultyIndexes = TestAssesment.DifficultyIndexOfQuestion(TestResults)
+        Count = len(DifficultyIndexes.index)
+        AverageResult = TestAssesment.AverageResult(TestResults)
+        CountOfQuestions = TestAssesment.CountOfQuestions(TestResults)
+        Count1 = len(CountOfQuestions.index)
+        HardQuestions = TestAssesment.FindHardQuestions(DifficultyIndexes)
+        Count2 = len(HardQuestions.index)
+        EazyQuestions = TestAssesment.FindEazyQuestions(DifficultyIndexes)
+        Count3 = len(EazyQuestions.index)
+        AVG = TestAssesment.AverageResultPerCategory(TestAssesment.DifficultyIndexOfQuestion(TestResults),
                                                  len(TestAssesment.DifficultyIndexOfQuestion(TestResults).index))
-    AVGDataFrame = TestAssesment.ConvertToDataFrame(AVG)
-    Count4 = len(AVGDataFrame.index)
-    TestAssesment.CreateDiagram(AVG, NumberOfQuestions)
-    return render_template("TestAssesment.html", NumberOfQuestions=NumberOfQuestions,
+        AVGDataFrame = TestAssesment.ConvertToDataFrame(AVG)
+        Count4 = len(AVGDataFrame.index)
+        TestAssesment.CreateDiagram(AVG, NumberOfQuestions)
+        return render_template("TestAssesment.html", NumberOfQuestions=NumberOfQuestions,
                            DifficultyIndexes=DifficultyIndexes,
                            Count=Count, AverageResult=AverageResult,
                            CountOfQuestions=CountOfQuestions, Count1=Count1,
@@ -59,6 +63,7 @@ def TestAssesmentPage():
                            EazyQuestions=EazyQuestions, Count3=Count3,
                            NumberOfAttempts=NumberOfAttempts, AVGDataFrame=AVGDataFrame,
                            Count4=Count4)
+    else: return redirect('/')
 
 
 if __name__ == "__main__":

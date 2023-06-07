@@ -1,0 +1,58 @@
+html, body{
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    font-weight: bold;
+}
+
+.content{
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+table{
+    width: 100%;
+	border: 1px solid #dddddd;
+	border-collapse: collapse;
+}
+
+th{
+    font-weight: bold;
+	padding: 5px;
+	background: #efefef;
+	border: 1px solid #dddddd;
+}
+
+td{
+    border: 1px solid #dddddd;
+	padding: 5px;
+	background-color: white;
+}
+
+.img{
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    background-color: white;
+}
+
+.form{
+    width: 30%;
+    height: 30%;
+    border: 1px solid #dddddd;
+    background-color: #efefef;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
+    top: 35%;
+}
+
